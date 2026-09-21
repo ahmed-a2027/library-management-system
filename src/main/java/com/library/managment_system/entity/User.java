@@ -1,5 +1,6 @@
 package com.library.managment_system.entity;
 
+import com.library.managment_system.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -34,9 +35,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
