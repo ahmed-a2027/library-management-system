@@ -6,6 +6,7 @@ import com.library.managment_system.entity.User;
 import com.library.managment_system.enums.UserRole;
 import com.library.managment_system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RegisterResponse createUser(RegisterRequest request) {
 
@@ -24,7 +26,7 @@ public class UserService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.MEMBER)
                 .build();
 
