@@ -4,6 +4,7 @@ import com.library.managment_system.dto.RegisterRequest;
 import com.library.managment_system.dto.RegisterResponse;
 import com.library.managment_system.entity.User;
 import com.library.managment_system.enums.UserRole;
+import com.library.managment_system.exception.EmailAlreadyExistsException;
 import com.library.managment_system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +20,7 @@ public class UserService {
     public RegisterResponse createUser(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("this is email is exists");
+            throw new EmailAlreadyExistsException("ُEmail Already exists");
         }
 
         User user = User.builder()
