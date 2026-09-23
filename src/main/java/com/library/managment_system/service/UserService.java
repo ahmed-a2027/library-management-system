@@ -14,32 +14,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public RegisterResponse createUser(RegisterRequest request) {
-
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new EmailAlreadyExistsException("ُEmail Already exists");
-        }
-
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserRole.MEMBER)
-                .build();
-
-        User savedUser = userRepository.save(user);
-
-        return RegisterResponse.builder()
-                .id(savedUser.getId())
-                .firstName(savedUser.getFirstName())
-                .lastName(savedUser.getLastName())
-                .email(savedUser.getEmail())
-                .role(savedUser.getRole())
-                .build();
-    }
 
 }
