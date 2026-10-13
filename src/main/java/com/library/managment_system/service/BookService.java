@@ -28,15 +28,23 @@ public class BookService {
 
     public BookResponse createBook(BookRequest request) {
 
+        System.out.println("1. Checking ISBN");
+
         if (bookRepository.existsByIsbn(request.getIsbn())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A book with this ISBN already exists");
         }
 
+        System.out.println("2. ISBN checked");
+
         Author author = authorRepository.findById(request.getAuthorId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author not found"));
 
+        System.out.println("3. Author found");
+
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+
+        System.out.println("4. Category found");
 
         Book book = Book.builder()
                 .title(request.getTitle())
@@ -80,7 +88,7 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A book with this ISBN already exists");
         }
 
-        Author author = authorRepository.findById(request.getCategoryId())
+        Author author = authorRepository.findById(request.getAuthorId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author not found"));
 
         Category category = categoryRepository.findById(request.getCategoryId())
